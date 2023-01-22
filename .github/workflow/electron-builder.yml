@@ -1,47 +1,26 @@
-name: electron builder
+name: electron-builder
 
-on:
+
+on: 
   push:
     branches:
-    - master
-    - 'releases/**'
-  pull_request:
-    branches:
-    - master
-    - 'releases/**'
-     
+      - "develop"   
 jobs:
-  electron-builder:
-    runs-on: ubuntu-latest
-    steps:
-     - name: checkout code 
-       uses: action/checkout@v2
-       run: |
-        cd app
-        sudo apt-get install nodejs
-     - name: build with win-packges
-       run: |
-         npm i
-         npm run pack-win
-         
-
-  electron-builder-win:
-   runs-on: macos-latest
+  build:
+   runs-on: ubuntu-latest
+   strategy:
+    matrix:
+      version: [14.x,15.x,18.x]
    steps:
-    - name: checkout code
-      uses: actions/checkout@v2
-      run: |
-        cd app
-        brew update
-        brew install nodejs
-      
-    - name: install macos packges
-      run: |
-       npm i
-       npm run pack-mac
-
-
-
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: action/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+      - name: build
+        run: |
+         npm install 
+         npm webpack  
 
 
 

@@ -1,0 +1,47 @@
+name: electron builder
+
+on:
+  push:
+    branches:
+    - master
+    - 'releases/**'
+  pull_request:
+    branches:
+    - master
+    - 'releases/**'
+     
+jobs:
+  electron-builder:
+    runs-on: ubuntu-latest
+    steps:
+     - name: checkout code 
+       uses: action/checkout@v2
+       run: |
+        cd app
+        sudo apt-get install nodejs
+     - name: build with win-packges
+       run: |
+         npm i
+         npm run pack-win
+         
+
+  electron-builder-win:
+   runs-on: macos-latest
+   steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+      run: |
+        cd app
+        brew update
+        brew install nodejs
+      
+    - name: install macos packges
+      run: |
+       npm i
+       npm run pack-mac
+
+
+
+
+
+

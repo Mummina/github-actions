@@ -7,16 +7,17 @@ on:
 jobs:
   build:
    runs-on: ubuntu-latest
-   strategy:
-    matrix:
-      version: [14.x,15.x,18.x]
    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{matrix.node-version}}
-        uses: action/setup-node@v3
-        with:
-          node-version: ${{matrix.node-version}}
-      - name: build
+     - name: checkout code
+       uses: action/checkout@v3
+     - name: steup Node.js
+       uses: action/setup-node@v3
+     - name: install dependencies
+       run: npm ci
+     -  name: build windows packges
         run: |
-         npm install 
-         npm webpack  
+         ls 
+         npm run build:windows
+        
+      
+        

@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: action/checkout@v3
+        uses: action/checkout@v6
       - name: steup Node.js
-        uses: action/setup-node@v3
+        uses: action/setup-node@v6
       - name: install dependencies
         run: npm ci
       - name: build windows packges

@@ -1,23 +1,23 @@
 name: build release
 
-on: 
+on:
   push:
     branches:
-      - "master"   
+      - "master"
 jobs:
   build:
-   runs-on: ubuntu-latest
-   steps:
-     - name: checkout code
-       uses: action/checkout@v3
-     - name: steup Node.js
-       uses: action/setup-node@v3
-     - name: install dependencies
-       run: npm ci
-     -  name: build windows packges
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: action/checkout@v3
+      - name: steup Node.js
+        uses: action/setup-node@v3
+      - name: install dependencies
+        run: npm ci
+      - name: build windows packges
         run: |
-         ls 
-         npm run build:windows
-        
+          ls 
+          npm run build:windows
+
       
         

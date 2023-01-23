@@ -8,16 +8,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code
-        uses: action/checkout@v6
-      - name: steup Node.js
-        uses: action/setup-node@v6
-      - name: install dependencies
-        run: npm ci
-      - name: build windows packges
-        run: |
+      - uses: action/checkout@v3
+      - uses: action/setup-node@v3
+        with:
+          node-version: '14'
+      - run: |
           ls 
-          npm run build:windows
+          pwd
+          npm install package 
+          npm build:windows    
 
+      
       
         

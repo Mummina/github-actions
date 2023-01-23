@@ -1,10 +1,9 @@
-name: electron-builder
-
+name: build release
 
 on: 
   push:
     branches:
-      "master"   
+      - "develop"   
 jobs:
   build:
    runs-on: ubuntu-latest
@@ -21,6 +20,3 @@ jobs:
         run: |
          npm install 
          npm webpack  
-
-
-

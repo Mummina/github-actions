@@ -8,15 +8,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v3
-      - uses: action/setup-node@v3
-        with:
-          node-version: '14'
-      - run: |
-          ls 
-          pwd
-          npm install package 
-          npm build:windows    
+      - name: echo a string
+        run: echo "hello world"
+      - name: multile line script
+        run: |
+          node -v
+          npm -v
 
       
       

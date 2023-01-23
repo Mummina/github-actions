@@ -1,5 +1,5 @@
-name: build release
 
+name: releases
 on:
   push:
     branches:
@@ -8,13 +8,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: echo a string
-        run: echo "hello world"
-      - name: multile line script
+      - name: list files
         run: |
-          node -v
-          npm -v
+          pwd
+          ls
+      - name: check out code
+        uses: Mummina/github-actions@master
+      - name: multiple linescript
+        run: |
+         node -v
+         npm -v
 
-      
-      
-        
+
+

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@28.2.1/dist/ag-grid-community.min.js"></script>
+    <title>QloudBridge 1.0.0</title>
+</head>
+
+<body>
+    <div class="navbar" id="navbar">
+        <div class="blue-logo">
+            <img src="../assets/img/qyrus-logo-blue.svg">
+        </div>
+        <div style="position: absolute;left: 360px;top: 6px;height: 40px;width: 300px;">
+            <div id="offline-msg" class="msg-rcd"></div>
+        </div>
+        <div id="logout-button">
+            <img src="../assets/img/logout.svg" class="logout-icon">
+        </div>
+    </div>
+    
+    <div class="sidenavbar" id="menu-button" onclick="hideOptions()">
+        <img src="../assets/img/menu.svg" class="menu-icon">
+    </div>
+    <div class="primary-frame" id="show-panel" style="display:block;">
+        <img style="position: absolute;left: 298px;cursor: pointer;" src="../assets/img/left.svg"  id="x-mark" onclick="hideOptions()">
+        <div id="rp" class="rp-box-selected">
+            <!-- <img src="../assets/img/rp.svg" class="rp-icon"> -->
+            <h6 class="heading">Qyrus Connect</h6>
+            <div id="success" class="success" style="display: none;"></div>
+            <div id="failure" class="failure" style="display: none;"></div>
+
+        </div>
+        <div id="node-reg" class="reg-node-box">
+            <h6 class="heading"> Register as Node </h6>
+        </div>
+        <div id="desk-test" class="desk-test-box">
+            <h6 class="heading"> Desktop Testing </h6>
+        </div>
+    </div>
+    <!-- <img style="position: absolute;right: 100px;width: 32px;height: 22px;cursor: pointer;" src="../assets/img/refresh.svg"  id="refresh"> -->
+    <div class="form-details" id="show-form" style="display:block;">
+        <h1 class="form-heading">Enter the details</h1>
+        <!-- <img src="../assets/img/edit.svg" class="edit-icon" id="edit-option"> -->
+        <form id="rp-form">
+            <div class="form-elements">
+                <label for="address" class="heading-form">Private IP</label>
+                <h class="imp">*</h>
+                <div class="alert-ip" id="alert-ip" style="display: none;">
+                    <span class="alert-text-ip">Enter Valid IP address and Please add /32 as Suffix</span>
+                  </div>
+                <div class="info-icon">
+                    <img src="../assets/img/info.svg" id="info-option">
+                    <span class="text-info">/32 indicates a single device and its recommended to use /32 than using the whole subnet /24,/16 <br> For multiple Private IPs, use comma seperated format, For Eg: 192.x.x.x/32,192.x.x.1/32</span>
+                </div>
+                <!-- <img src="../assets/img/plus.svg" class="plus-icon" id="plus-button"> -->
+                <input tabindex="1" id="address" class="form-input" placeholder="Eg: x.x.x.x/32" type="text" autofocus=""
+                    autocomplete="on" required>  
+            </div>
+            <div class="form-elements">
+                <!-- <i class="fa fa-spinner fa-spin" style="display: none;" id="loader"></i> -->
+                <input tabindex="4d" class="form-button" id="submit-button" type="submit" value="Connect">
+            </div>
+        </form>
+        <!-- <div class="loader" id="loader" style="position:absolute; right: 70px;left: 90px;top:260px; display:none;"></div> -->
+        <div id="upper-msg" style="position:absolute; right: 80px;left: 1px;top:160px">
+        <div id="message-received" class="msg-rcd"></div>
+             <!-- <span id='close' class="close" style="display: none;">x</span> -->
+        </div>
+    </div>
+    <div id="show-reg-node" style="display: none;" class="node-details">
+        <h1 class="form-heading">Node Information</h1>
+        <div class="general">
+            <label class="heading-form">General</label> 
+            <span class="browser-text">OS type</span>
+            <span class="browser-text">Client Name</span>
+
+        </div>
+        <br>
+        <div class="browsers">
+            <label class="browser-info">Browsers</label>
+            <div id="chrome" style="display: none;">
+                <img src="../assets/img/chrome.svg" class="chrome">
+                <span class="browser-text">Chrome</span>
+            </div>
+            <div id="edge" style="display: none;">
+                <img src="../assets/img/edge.svg" class="chrome">
+                <span class="browser-text">Edge</span>
+            </div>
+            <div id="safari" style="display: none;">
+                <img src="../assets/img/safari.svg" class="chrome">
+                <span class="browser-text">Safari</span>
+            </div>
+            <div id="firefox" style="display: none;">
+                <img src="../assets/img/firefox.svg" class="chrome">
+                <span class="browser-text">Firefox</span>
+            </div>
+            <div id="other" class="other" style="display: none;">
+                <img src="../assets/img/browser.svg" class="chrome">
+                <span class="browser-text">Other Browsers</span>
+            </div>
+        </div> 
+        <input tabindex="2d" class="register-button" id="register-button" type="submit" value="Register">
+    </div>
+    <!-- <div id="show-desk-test" class="node-details" style="display: none;">
+        <h1 class="form-heading">Upload JSON</h1>
+        <textarea id="get-json" rows="10" cols="60"></textarea>
+        <input tabindex="4d" class="upload-button" id="upload-button" type="submit" value="Run">
+    </div> -->
+    <div id="show-desk-test" class="node-details" style="display: none;">
+        <h1 class="form-heading">Build Test</h1>
+        <div id="show-fieldset" style="display: block; width: 440px;">
+            <div title="Please Delete the Grid before you Switch the Options for Desktop-apps" style="font-family: 'Inter', sans-serif;">
+                <div class="select-win">
+                    <input type="radio" id="win32" name="type" value="Win32" onclick="callGrid()" onchange="enableDelButton()" checked="true" disabled="true">
+                    <label class="test-options">WIN32/Electron</label>
+                </div>
+                <div class="select-sap">
+                    <input type="radio" id="sap" name="type" value="SAP" onclick="callGrid()" onchange="enableDelButton()">
+                    <label class="test-options">SAP</label>
+                </div>
+                <div class="select-win-sap">
+                    <input type="radio" id="win-sap" name="type" value="Win32 + SAP" onclick="callGrid()" onchange="enableDelButton()">
+                    <label class="test-options">Win SAP Connector</label>
+                </div>
+            </div>
+            <br>
+            <label class="file-options">Test Name</label>
+            <input id="filename" class='test-suite' type="text" placeholder="To save the steps as a JSON file in Downloads Folder" required>
+        </div>
+        <input tabindex="4d" class="upload-button" id="upload-button" type="submit" value="Execute" style="display: none;">
+        <div title="Upload the File For Parameterized/Provide Link to CSV file" id="para-detail" class="show-data">
+            <label class="para-label">Provide Link</label>
+            <input id="csv-link" class='para-suite'  type="text" placeholder="Link to Parameterized CSV file" required />
+            <label class="for-or">Or</label>
+            <input type="file" class="para-upload" id="attachment-para" style="display: none;" accept=".csv" onchange="fileSelectedPara(this)"/>
+            <input type="button" class="para-upload" id="btnAttachment-para" onclick="openAttachmentPara()" value="Upload"/>
+            <input type="button" class="para-ok" id="btnAttachment-ok" onclick="disableFields()" value="OK"/>
+        </div>
+        <div title="To Enable, Select 'Enable Parameterized' field in the Row">
+            <input type="button" class="para-button" id="btn-para" value="Parameterized" onclick="showPopup()" disabled/>
+        </div>
+        <div title="Upload the File which contains the Saved Steps">
+            <input type="file" class="import-button" id="attachment" style="display: none;" accept=".json" onchange="fileSelected(this)"/>
+            <input type="button" class="import-button" id="btnAttachment" onclick="openAttachment()" value="Import"/>
+        </div>
+        <input tabindex="4d" class="delete-button" id="delete-button" type="submit" value="Delete Grid" style="display: none;">
+        <div title="To Clear All Rows, Enable the Checkbox in Step Number Column" style="font-family: 'Inter', sans-serif;">
+            <input tabindex="4d" class="clear-button" id="clear-button" type="submit" value="Clear Row(s)" style="display: none;">
+        </div>
+        <input tabindex="4d" class="add-button" id="add-button" type="submit" value="Add Row" style="display: none;">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="myGrid" style="height: 100%; width: 100%; font-family: 'Inter', sans-serif;" class="ag-theme-alpine"></div>
+        <div style="position:absolute; left: 180px;top:634px">
+            <div id="desk-test-message" class="msg-rcd"></div>
+        </div>
+    </div>
+    <script src="./dashboard.js"></script>
+</body>
+</html>

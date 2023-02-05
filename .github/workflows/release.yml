@@ -1,0 +1,56 @@
+name:  build & Release
+on: 
+  push:
+    branches:
+      - "master"
+    tags:
+      - "v*"       
+jobs:
+  electron_builder_mac:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16' 
+        env:
+          GITHUB_TOKEN: ${{ secrets.TESTING_GITHUB_TOKEN }}    
+      -  run: npm config set package-lock true
+      -  run: echo 'package-lock=true'>> .npmrc
+      -  run: npm install -g npm@latest
+      -  run: npm i -g npm-upgrade
+      -  run: |
+          echo 1. what is in this directory?
+          ls 
+          echo
+          cd /Users/runner/work/desktop-app/desktop-app/app
+          ls -a
+          npm i
+          npm run pack-win
+          cd /Users/runner/work/desktop-app/desktop-app/app/build
+          ls
+   
+      -  name: Create new Release
+         id: create_new_release
+         uses: actions/create-release@v1
+         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+         with:
+          tag_name: ${{ github.ref }}
+          release_name:  Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - secound Change
+          draft: false
+          prerelease: false   
+      - name: upload release asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: https://uploads.github.com/repos/QQyrus/desktop-app/releases/v1.0.0/assets 
+          asset_path: "./app/build/QloudBridge Setup 1.0.0.exe" 
+          asset_name:  QloudBridge Setup 1.0.0.exe
+          asset_content_type: application/octet-stream
